@@ -1,0 +1,3 @@
+# Standard ignores for zig.
+.zig-cache/
+zig-out/
