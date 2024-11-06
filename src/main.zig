@@ -38,7 +38,11 @@ pub fn main() !void {
         const code = switch (cmd) {
             .cat => @import("./cmd/cat.zig").execute(stdio.os(), arg_iter),
             .true => 0,
-            .false => 1,
+            .false => exit: {
+                var src = std.Random.DefaultPrng.init(randSeed());
+                const rng = std.Random.init(&src, @TypeOf(src).fill);
+                break :exit @import("./cmd/false.zig").execute(rng);
+            },
         };
 
         std.process.exit(code);
@@ -107,6 +111,11 @@ const known_commands: [n_commands][]const u8 = generate: {
 // Used for confirming that the Commands enum is sorted.
 fn asciiLT(_: void, lhs: []const u8, rhs: []const u8) bool {
     return std.mem.order(u8, lhs, rhs) == .lt;
+}
+
+fn randSeed() u64 {
+    const now: u128 = @bitCast(std.time.nanoTimestamp());
+    return @truncate(now);
 }
 
 test {

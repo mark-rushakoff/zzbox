@@ -37,4 +37,4 @@ Otherwise, the first positional argument is treated as the name of the utility t
 |---------|----------|-------------------------|
 | cat     | Partial  | No argument support yet |
 | true    | Complete |                         |
-| false   | Partial  | Hardcoded to exit 1     |
+| false   | Complete |                         |
